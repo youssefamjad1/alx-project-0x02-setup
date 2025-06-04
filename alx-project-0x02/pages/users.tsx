@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import UserCard from '@/components/common/UserCard';
 import Header from '@/components/layout/Header';
 
@@ -12,15 +12,11 @@ interface User {
   };
 }
 
-const UsersPage: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]);
+interface UsersPageProps {
+  users: User[];
+}
 
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then((res) => res.json())
-      .then((data) => setUsers(data));
-  }, []);
-
+const UsersPage: React.FC<UsersPageProps> = ({ users }) => {
   return (
     <div className="container mx-auto p-8">
       <Header />
@@ -38,5 +34,17 @@ const UsersPage: React.FC = () => {
     </div>
   );
 };
+
+// Fetch users data at build time
+export async function getStaticProps() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/users');
+  const users: User[] = await res.json();
+
+  return {
+    props: {
+      users,
+    },
+  };
+}
 
 export default UsersPage;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PostCard from '@/components/common/PostCard';
 import Header from '@/components/layout/Header';
 
@@ -9,15 +9,11 @@ interface Post {
   userId: number;
 }
 
-const PostsPage: React.FC = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+interface PostsPageProps {
+  posts: Post[];
+}
 
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts?_limit=10')
-      .then((res) => res.json())
-      .then((data) => setPosts(data));
-  }, []);
-
+const PostsPage: React.FC<PostsPageProps> = ({ posts }) => {
   return (
     <div className="container mx-auto p-8">
       <Header />
@@ -35,5 +31,17 @@ const PostsPage: React.FC = () => {
     </div>
   );
 };
+
+// Fetch posts data at build time
+export async function getStaticProps() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=10');
+  const posts: Post[] = await res.json();
+
+  return {
+    props: {
+      posts,
+    },
+  };
+}
 
 export default PostsPage;
