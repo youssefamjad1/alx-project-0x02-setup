@@ -1,9 +1,11 @@
 import React from 'react';
 import Button from '@/components/common/Button';
+import Header from '@/components/layout/Header'; // ✅ Add this import
 
 const About: React.FC = () => {
   return (
     <main className="container mx-auto p-8">
+      <Header /> 
       <h1 className="text-3xl font-bold mb-6">About Page</h1>
       <div className="flex gap-4">
         <Button size="small" shape="rounded-sm">Small Rounded-SM</Button>

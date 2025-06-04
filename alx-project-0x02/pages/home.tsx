@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Card from '@/components/common/Card';
 import PostModal from '@/components/common/PostModal';
+import Header from '@/components/layout/Header';
+
 
 const Home: React.FC = () => {
   const [posts, setPosts] = useState<{ title: string; content: string }[]>([]);
@@ -12,6 +14,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="container mx-auto p-8">
+        <Header />
       <h1 className="text-3xl font-bold mb-4">Welcome to ALX Project 0x02</h1>
       <button
         onClick={() => setModalOpen(true)}
