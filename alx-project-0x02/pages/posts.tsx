@@ -1,16 +1,39 @@
-// alx-project-0x02/pages/posts.tsx
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import PostCard from '@/components/common/PostCard';
 import Header from '@/components/layout/Header';
 
-const Posts: React.FC = () => {
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+  userId: number;
+}
+
+const PostsPage: React.FC = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/posts?_limit=10')
+      .then((res) => res.json())
+      .then((data) => setPosts(data));
+  }, []);
+
   return (
-    <main className="container mx-auto p-8">
+    <div className="container mx-auto p-8">
       <Header />
-      <h1 className="text-3xl font-bold mb-6">Posts Page</h1>
-      <p>This is a placeholder for the Posts page.</p>
-    </main>
+      <h1 className="text-3xl font-bold mb-6">Posts</h1>
+      <div className="space-y-4">
+        {posts.map((post) => (
+          <PostCard
+            key={post.id}
+            title={post.title}
+            content={post.body}
+            userId={post.userId}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 
-export default Posts;
+export default PostsPage;
